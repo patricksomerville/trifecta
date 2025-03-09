@@ -74,7 +74,7 @@ def setup_logging(log_path: str):
         ]
     )
 
-def call_claude(client: Anthropic, prompt: str, model: str = "claude-3.7", max_tokens: int = 8000) -> str:
+def call_claude(client: Anthropic, prompt: str, model: str = "claude-3-opus-20240229", max_tokens: int = 8000) -> str:
     """Call Claude API with the given prompt and return the completion text."""
     # We use Claude in chat mode with a single user prompt followed by assistant response
     # The HUMAN_PROMPT and AI_PROMPT constants help format the prompt for Claude.
@@ -223,7 +223,7 @@ def main():
     parser = argparse.ArgumentParser(description="Expand a short story into a novel using Claude API.")
     parser.add_argument("input_file", help="Path to the short story file (.txt, .docx, or .pdf)")
     parser.add_argument("--output_dir", help="Directory to save the output (optional)")
-    parser.add_argument("--model", help="Claude model to use (default 'claude-3.7')", default="claude-3.7")
+    parser.add_argument("--model", help="Claude model to use (default 'claude-3-opus-20240229')", default="claude-3-opus-20240229")
     args = parser.parse_args()
 
     input_path = args.input_file
