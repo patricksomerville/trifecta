@@ -1,0 +1,9 @@
+[project]
+name = "pywrite-editor"
+version = "0.1.0"
+description = "Python writing application with a modern text editor built using Streamlit"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit",
+    "streamlit-ace",
+]
