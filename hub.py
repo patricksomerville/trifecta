@@ -8,7 +8,7 @@ from datetime import datetime
 
 # Import Claude API client from Anthropics SDK
 try:
-    from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
+    from anthropic import Anthropic
 except ImportError:
     # If the anthropic SDK is not installed, prompt the user
     raise ImportError("Please install the anthropic SDK with: pip install anthropic")
@@ -76,18 +76,21 @@ def setup_logging(log_path: str):
 
 def call_claude(client: Anthropic, prompt: str, model: str = "claude-3-opus-20240229", max_tokens: int = 8000) -> str:
     """Call Claude API with the given prompt and return the completion text."""
-    # We use Claude in chat mode with a single user prompt followed by assistant response
-    # The HUMAN_PROMPT and AI_PROMPT constants help format the prompt for Claude.
-    full_prompt = f"{HUMAN_PROMPT}{prompt}{AI_PROMPT}"
-    response = client.completions.create(
+    # Using the Messages API for Claude 3 models
+    response = client.messages.create(
         model=model,
-        max_tokens_to_sample=max_tokens,
-        prompt=full_prompt,
-        stop_sequences=[HUMAN_PROMPT]  # stop when a new human prompt would start
+        max_tokens=max_tokens,
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
     )
-    # The response object from anthropic SDK (if using `completions.create`) might have .completion attribute
-    result = response.completion.strip()
-    return result
+    # The response from messages API has .content attribute with a list of content blocks
+    # We extract the text from each content block
+    result = ""
+    for content_block in response.content:
+        if content_block.type == "text":
+            result += content_block.text
+    return result.strip()
 
 def generate_outline(client: Anthropic, story_text: str) -> str:
     """Generate a novel outline from the short story text using Claude."""
