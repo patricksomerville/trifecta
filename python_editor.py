@@ -49,6 +49,17 @@ class PyWriteEditor:
         # File menu
         file_menu = tk.Menu(menubar, tearoff=0)
         file_menu.add_command(label="New", accelerator="Ctrl+N", command=self.new_file)
+        
+        # Submenu for New with templates
+        new_with_template_menu = tk.Menu(file_menu, tearoff=0)
+        new_with_template_menu.add_command(label="Python", command=lambda: self.new_file_with_template("python"))
+        new_with_template_menu.add_command(label="HTML", command=lambda: self.new_file_with_template("html"))
+        new_with_template_menu.add_command(label="CSS", command=lambda: self.new_file_with_template("css"))
+        new_with_template_menu.add_command(label="JavaScript", command=lambda: self.new_file_with_template("javascript"))
+        new_with_template_menu.add_command(label="JSON", command=lambda: self.new_file_with_template("json"))
+        new_with_template_menu.add_command(label="Markdown", command=lambda: self.new_file_with_template("markdown"))
+        file_menu.add_cascade(label="New with Template", menu=new_with_template_menu)
+        
         file_menu.add_command(label="Open", accelerator="Ctrl+O", command=self.open_file)
         file_menu.add_command(label="Save", accelerator="Ctrl+S", command=self.save_file)
         file_menu.add_command(label="Save As", command=self.save_file_as)
@@ -238,6 +249,47 @@ if __name__ == "__main__":
                 with open(file_path, 'r') as file:
                     content = file.read()
                 
+
+    def new_file_with_template(self, template_type):
+        """Create a new file with the specified template"""
+        if self.file_changed:
+            save = messagebox.askyesnocancel("Save Changes", 
+                "Do you want to save changes to the current file?")
+            if save is None:
+                return  # Cancel was pressed
+            if save:
+                self.save_file()
+        
+        # Import template creation function from simple_editor
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        try:
+            from simple_editor import create_from_template
+            
+            # Create a temporary file with the template
+            with tempfile.NamedTemporaryFile(delete=False, suffix=f".{template_type}") as tmp:
+                tmp_path = tmp.name
+            
+            # Use the template function
+            create_from_template(tmp_path, template_type)
+            
+            # Load the template content
+            with open(tmp_path, 'r') as file:
+                content = file.read()
+            
+            # Delete the temporary file
+            os.unlink(tmp_path)
+            
+            # Update the editor
+            self.editor.delete(1.0, tk.END)
+            self.editor.insert(tk.END, content)
+            self.current_file = None
+            self.file_changed = False
+            self.update_title()
+            self.status_var.set(f"Created new {template_type} file from template")
+            
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not create template: {str(e)}")
+
                 self.editor.delete(1.0, tk.END)
                 self.editor.insert(tk.END, content)
                 self.current_file = file_path

@@ -93,6 +93,92 @@ def execute_python_code(code):
         
         # Get any output from the StringIO objects
         if redirected_output.getvalue() or redirected_error.getvalue():
+
+def search_in_files(search_text, directory='.', file_pattern='*.*'):
+    """
+    Search for text in files and return results
+    """
+    import re
+    import glob
+    
+    results = []
+    
+    try:
+        # Get all matching files
+        search_path = os.path.join(directory, file_pattern)
+        matching_files = glob.glob(search_path, recursive=True)
+        matching_files.sort()
+        
+        # Compile the search pattern
+        try:
+            regex = re.compile(search_text, re.IGNORECASE)
+        except re.error:
+            # If the pattern is not a valid regex, search for it as a literal string
+            regex = re.compile(re.escape(search_text), re.IGNORECASE)
+        
+        for file_path in matching_files:
+            if os.path.isfile(file_path):
+                try:
+                    with open(file_path, 'r', errors='replace') as file:
+                        lines = file.readlines()
+                    
+                    file_results = []
+                    for i, line in enumerate(lines, 1):
+                        matches = regex.finditer(line)
+                        for match in matches:
+                            file_results.append({
+                                "line_number": i,
+                                "line_text": line.strip(),
+                                "match_span": match.span()
+                            })
+                    
+                    if file_results:
+                        results.append({
+                            "file_path": file_path,
+                            "matches": file_results
+                        })
+                        
+                except Exception as e:
+                    # Skip files with encoding issues or other errors
+                    pass
+        
+        return results
+    except Exception as e:
+        return []
+
+def compare_file_content(content1, content2):
+    """
+    Compare two text contents and return the differences
+    """
+    import difflib
+    
+    lines1 = content1.splitlines()
+    lines2 = content2.splitlines()
+    
+    # Create a differ object
+    differ = difflib.Differ()
+    diff = list(differ.compare(lines1, lines2))
+    
+    # Process the diff for better presentation
+    result = []
+    for line in diff:
+        line_type = ""
+        if line.startswith('+ '):
+            line_type = "addition"
+        elif line.startswith('- '):
+            line_type = "removal"
+        elif line.startswith('? '):
+            line_type = "info"
+        else:
+            line_type = "unchanged"
+            
+        result.append({
+            "line": line[2:] if line.startswith(('+ ', '- ', '? ')) else line[2:],
+            "type": line_type
+        })
+    
+    return result
+
             additional_output = redirected_output.getvalue() + redirected_error.getvalue()
             if additional_output and not result:
                 result = additional_output
