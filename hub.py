@@ -74,12 +74,13 @@ def setup_logging(log_path: str):
         ]
     )
 
-def call_claude(client: Anthropic, prompt: str, model: str = "claude-3-opus-20240229", max_tokens: int = 8000) -> str:
+def call_claude(client: Anthropic, prompt: str, model: str = "claude-3-opus-20240229", max_tokens: int = 4000) -> str:
     """Call Claude API with the given prompt and return the completion text."""
     # Using the Messages API for Claude 3 models
+    # Claude 3 Opus has a maximum output token limit of 4096
     response = client.messages.create(
         model=model,
-        max_tokens=max_tokens,
+        max_tokens=min(max_tokens, 4000),  # Ensure we don't exceed the model's limit
         messages=[
             {"role": "user", "content": prompt}
         ]
@@ -174,7 +175,7 @@ def generate_chapter(client: Anthropic, chapter_num: int, chapter_title: str, ch
     )
     prompt_parts.append(chapter_instruction)
     full_prompt = "\n".join(prompt_parts)
-    chapter_text = call_claude(client, full_prompt, max_tokens=8000)
+    chapter_text = call_claude(client, full_prompt, max_tokens=4000)
     logging.info(f"Chapter {chapter_num} generated ({len(chapter_text.split())} words).")
     return chapter_text
 
