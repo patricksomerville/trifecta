@@ -10,11 +10,18 @@ mode = "parallel"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "PyWrite App"
+args = "PyWrite Demo"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PyWrite Guide"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PyWrite"
 
 [[workflows.workflow]]
-name = "PyWrite App"
-mode = "parallel"
+name = "PyWrite Demo"
 author = "agent"
 
 [workflows.workflow.metadata]
@@ -25,8 +32,35 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python -m streamlit run streamlit_pywrite.py --server.port=5000 --server.address=0.0.0.0"
-waitForPort = 5000
+args = "./pywrite.sh demo"
+
+[[workflows.workflow]]
+name = "PyWrite Guide"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./pywrite.sh guide"
+
+[[workflows.workflow]]
+name = "PyWrite"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
 
 [nix]
 channel = "stable-24_05"
@@ -34,7 +68,3 @@ channel = "stable-24_05"
 [deployment]
 deploymentTarget = "autoscale"
 run = ["sh", "-c", "python -m streamlit run streamlit_pywrite.py --server.port=5000 --server.address=0.0.0.0"]
-
-[[ports]]
-localPort = 54545
-externalPort = 80
