@@ -1,0 +1,27 @@
+# YAML Configuration File
+# Created: 2025-03-27
+
+version: '1.0'
+
+application:
+  name: ApplicationName
+  description: Application description
+  environment: development
+
+database:
+  host: localhost
+  port: 5432
+  username: user
+  password: password
+  database: dbname
+
+server:
+  port: 8080
+  timeout: 30
+  max_connections: 100
+  
+logging:
+  level: info
+  file: logs/app.log
+  max_size: 10MB
+  backup_count: 5

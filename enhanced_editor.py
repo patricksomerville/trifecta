@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PyWrite Simple File Editor with no interactive input
+PyWrite Enhanced File Editor with no interactive input
 This version reads from files and writes to files without requiring interactive input.
 """
 
@@ -10,6 +10,16 @@ import sys
 import argparse
 import time
 import glob
+import re
+import difflib
+import subprocess
+
+# Import the comment assistant if available
+try:
+    from comment_assistant import analyze_code_file, generate_improved_file
+    COMMENT_ASSISTANT_AVAILABLE = True
+except ImportError:
+    COMMENT_ASSISTANT_AVAILABLE = False
 
 def print_banner():
     """Print the PyWrite banner."""
@@ -24,7 +34,7 @@ def view_file(filename, line_range=None):
         return False
     
     try:
-        with open(filename, 'r') as file:
+        with open(filename, 'r', errors='replace') as file:
             lines = file.readlines()
         
         print(f"\nFile: {filename}\n")
@@ -94,7 +104,6 @@ def run_python_file(filename):
         print("=" * 50)
         
         # Use subprocess to run the Python file
-        import subprocess
         result = subprocess.run([sys.executable, filename], 
                                capture_output=True, 
                                text=True)
@@ -165,35 +174,47 @@ if __name__ == "__main__":
 """
     elif template_type.lower() == 'javascript' or template_type.lower() == 'js':
         content = f"""/**
- * JavaScript module
- * Author: PyWrite
- * Date: {time.strftime("%Y-%m-%d")}
+ * JavaScript Module
+ * Created: {time.strftime("%Y-%m-%d")}
  */
 
-// Main function
-function main() {
-    // Print a message
-    console.log("Hello, World!");
+// Example class
+class Example {{
+    constructor(name) {{
+        this.name = name;
+    }}
     
-    // Your code here
-}
+    greet() {{
+        console.log(`Hello, ${{this.name}}!`);
+    }}
+}}
 
-// Event listener for DOM loading
-document.addEventListener('DOMContentLoaded', function() {
-    main();
-});
+// Example function
+function initialize() {{
+    console.log('Initializing application...');
+    
+    // Your initialization code here
+    const example = new Example('World');
+    example.greet();
+    
+    return true;
+}}
 
-// Export functions if using modules
-export { main };
+// Execute when the document is fully loaded
+document.addEventListener('DOMContentLoaded', function() {{
+    initialize();
+}});
+
+// Export functions and classes (for module usage)
+export {{ Example, initialize }};
 """
     elif template_type.lower() == 'css':
         content = f"""/**
  * CSS Stylesheet
- * Author: PyWrite
- * Date: {time.strftime("%Y-%m-%d")}
+ * Created: {time.strftime("%Y-%m-%d")}
  */
 
-/* Reset some default styles */
+/* Reset and base styles */
 * {{
     margin: 0;
     padding: 0;
@@ -201,162 +222,63 @@ export { main };
 }}
 
 body {{
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    background-color: #f4f4f4;
+    background-color: #f8f9fa;
+}}
+
+.container {{
+    width: 80%;
+    margin: 0 auto;
     padding: 20px;
 }}
 
-/* Container */
-.container {{
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow: hidden;
+header {{
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
 }}
 
-/* Typography */
-h1, h2, h3 {{
-    margin-bottom: 15px;
-    color: #333;
+nav {{
+    display: flex;
+    justify-content: center;
+    background-color: #212529;
+    padding: 0.5rem;
 }}
 
-p {{
-    margin-bottom: 15px;
-}}
-
-/* Buttons */
-.btn {{
-    display: inline-block;
-    padding: 10px 20px;
-    background: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+nav a {{
+    color: white;
     text-decoration: none;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
 }}
 
-.btn:hover {{
-    background: #555;
+nav a:hover {{
+    background-color: #495057;
+    border-radius: 4px;
 }}
 
-def search_in_files(search_pattern, directory='.', file_pattern='*.*'):
-    """Search for a pattern in files matching the given file pattern."""
-    import re
-    
-    print(f"\nSearching for '{search_pattern}' in files matching '{file_pattern}' in {os.path.abspath(directory)}:\n")
-    print("=" * 50)
-    
-    try:
-        # Get all matching files
-        search_path = os.path.join(directory, file_pattern)
-        matching_files = glob.glob(search_path, recursive=True)
-        matching_files.sort()
-        
-        # Compile the search pattern
-        try:
-            regex = re.compile(search_pattern, re.IGNORECASE)
-        except re.error:
-            # If the pattern is not a valid regex, search for it as a literal string
-            regex = re.compile(re.escape(search_pattern), re.IGNORECASE)
-        
-        results_count = 0
-        for file_path in matching_files:
-            if os.path.isfile(file_path):
-                try:
-                    with open(file_path, 'r', errors='replace') as file:
-                        lines = file.readlines()
-                    
-                    file_results = []
-                    for i, line in enumerate(lines, 1):
-                        matches = regex.finditer(line)
-                        for match in matches:
-                            file_results.append((i, line.strip(), match.span()))
-                    
-                    if file_results:
-                        print(f"\nFile: {file_path}")
-                        print("-" * 40)
-                        for line_num, line_text, span in file_results:
-                            start, end = span
-                            print(f"Line {line_num}: {line_text[:start]}\033[1;31m{line_text[start:end]}\033[0m{line_text[end:]}")
-                        
-                        results_count += len(file_results)
-                except Exception as e:
-                    print(f"Error reading {file_path}: {str(e)}")
-        
-        print("=" * 50)
-        if results_count > 0:
-            print(f"\nFound {results_count} occurrences in {len(matching_files)} files.")
-        else:
-            print(f"\nNo matches found in {len(matching_files)} files.")
-        
-        return results_count > 0
-    except Exception as e:
-        print(f"Error searching files: {str(e)}")
-        return False
-
-def compare_files(file1, file2):
-    """Compare two files and show the differences."""
-    if not os.path.exists(file1):
-        print(f"Error: File '{file1}' does not exist.")
-        return False
-        
-    if not os.path.exists(file2):
-        print(f"Error: File '{file2}' does not exist.")
-        return False
-    
-    try:
-        import difflib
-        
-        print(f"\nComparing '{file1}' and '{file2}':\n")
-        print("=" * 50)
-        
-        with open(file1, 'r', errors='replace') as f1, open(file2, 'r', errors='replace') as f2:
-            file1_lines = f1.readlines()
-            file2_lines = f2.readlines()
-        
-        # Create a differ object
-        differ = difflib.Differ()
-        diff = list(differ.compare(file1_lines, file2_lines))
-        
-        # Print the diff
-        for line in diff:
-            if line.startswith('+ '):
-                print(f"\033[1;32m{line}\033[0m", end='')  # Green for additions
-            elif line.startswith('- '):
-                print(f"\033[1;31m{line}\033[0m", end='')  # Red for removals
-            elif line.startswith('? '):
-                print(f"\033[1;36m{line}\033[0m", end='')  # Cyan for information
-            else:
-                print(line, end='')
-        
-        print("\n" + "=" * 50)
-        print(f"\nComparison complete.")
-        return True
-    except Exception as e:
-        print(f"Error comparing files: {str(e)}")
-        return False
-
+/* Add your custom styles below */
+"""
     elif template_type.lower() == 'json':
-        content = """{
-    "name": "Project Name",
+        content = f"""{{
+    "name": "ProjectName",
     "version": "1.0.0",
-    "description": "Project description",
+    "description": "Description of your project",
     "author": "Your Name",
-    "created": "CURRENT_DATE",
-    "main": "index.js",
-    "properties": {
-        "property1": "value1",
-        "property2": "value2"
-    },
-    "items": [
-        "item1", 
-        "item2", 
-        "item3"
-    ]
-}""".replace("CURRENT_DATE", time.strftime("%Y-%m-%d"))
+    "created": "{time.strftime("%Y-%m-%d")}",
+    "license": "MIT",
+    "dependencies": {{
+        "example-package": "^1.0.0"
+    }},
+    "scripts": {{
+        "start": "node index.js",
+        "test": "echo \\"Error: no test specified\\" && exit 1"
+    }}
+}}
+"""
     elif template_type.lower() == 'markdown' or template_type.lower() == 'md':
         content = f"""# Title
 
@@ -422,6 +344,99 @@ logging:
         print(f"Error creating file: {str(e)}")
         return False
 
+def search_in_files(search_pattern, directory='.', file_pattern='*.*'):
+    """Search for a pattern in files matching the given file pattern."""
+    print(f"\nSearching for '{search_pattern}' in files matching '{file_pattern}' in {os.path.abspath(directory)}:\n")
+    print("=" * 50)
+    
+    try:
+        # Get all matching files
+        search_path = os.path.join(directory, file_pattern)
+        matching_files = glob.glob(search_path, recursive=True)
+        matching_files.sort()
+        
+        # Compile the search pattern
+        try:
+            regex = re.compile(search_pattern, re.IGNORECASE)
+        except re.error:
+            # If the pattern is not a valid regex, search for it as a literal string
+            regex = re.compile(re.escape(search_pattern), re.IGNORECASE)
+        
+        results_count = 0
+        for file_path in matching_files:
+            if os.path.isfile(file_path):
+                try:
+                    with open(file_path, 'r', errors='replace') as file:
+                        lines = file.readlines()
+                    
+                    file_results = []
+                    for i, line in enumerate(lines, 1):
+                        matches = regex.finditer(line)
+                        for match in matches:
+                            file_results.append((i, line.strip(), match.span()))
+                    
+                    if file_results:
+                        print(f"\nFile: {file_path}")
+                        print("-" * 40)
+                        for line_num, line_text, span in file_results:
+                            start, end = span
+                            print(f"Line {line_num}: {line_text[:start]}\033[1;31m{line_text[start:end]}\033[0m{line_text[end:]}")
+                        
+                        results_count += len(file_results)
+                except Exception as e:
+                    print(f"Error reading {file_path}: {str(e)}")
+        
+        print("=" * 50)
+        if results_count > 0:
+            print(f"\nFound {results_count} occurrences in {len(matching_files)} files.")
+        else:
+            print(f"\nNo matches found in {len(matching_files)} files.")
+        
+        return results_count > 0
+    except Exception as e:
+        print(f"Error searching files: {str(e)}")
+        return False
+
+def compare_files(file1, file2):
+    """Compare two files and show the differences."""
+    if not os.path.exists(file1):
+        print(f"Error: File '{file1}' does not exist.")
+        return False
+        
+    if not os.path.exists(file2):
+        print(f"Error: File '{file2}' does not exist.")
+        return False
+    
+    try:
+        print(f"\nComparing '{file1}' and '{file2}':\n")
+        print("=" * 50)
+        
+        with open(file1, 'r', errors='replace') as f1, open(file2, 'r', errors='replace') as f2:
+            file1_lines = f1.readlines()
+            file2_lines = f2.readlines()
+        
+        # Create a differ object
+        differ = difflib.Differ()
+        diff = list(differ.compare(file1_lines, file2_lines))
+        
+        # Print the diff
+        for line in diff:
+            if line.startswith('+ '):
+                print(f"\033[1;32m{line}\033[0m", end='')  # Green for additions
+            elif line.startswith('- '):
+                print(f"\033[1;31m{line}\033[0m", end='')  # Red for removals
+            elif line.startswith('? '):
+                print(f"\033[1;36m{line}\033[0m", end='')  # Cyan for information
+            else:
+                print(line, end='')
+        
+        print("\n" + "=" * 50)
+        print(f"\nComparison complete.")
+        return True
+    except Exception as e:
+        print(f"Error comparing files: {str(e)}")
+        return False
+
 def copy_file(source, destination):
     """Copy a file from source to destination."""
     if not os.path.exists(source):
@@ -483,35 +498,107 @@ def append_content(filename, content):
         print(f"Error appending to file: {str(e)}")
         return False
 
+def analyze_code_comments(filename):
+    """
+    Analyze a file for missing comments and documentation using the comment assistant.
+    
+    Args:
+        filename: Path to the file to analyze
+    
+    Returns:
+        True if analysis was successful, False otherwise
+    """
+    if not COMMENT_ASSISTANT_AVAILABLE:
+        print("Error: Comment Assistant module is not available.")
+        print("Make sure the comment_assistant.py file is in the same directory.")
+        return False
+        
+    try:
+        print(f"\nAnalyzing code comments in '{filename}'...\n")
+        
+        # Call the analyze_code_file function from comment_assistant.py
+        result = analyze_code_file(filename)
+        
+        # The analyze_code_file function will print the analysis results
+        return True
+    except Exception as e:
+        print(f"Error analyzing code comments: {str(e)}")
+        return False
+
+def improve_code_comments(filename, output_file=None):
+    """
+    Improve code comments in a file using the comment assistant.
+    
+    Args:
+        filename: Path to the file to improve
+        output_file: Optional path to save the improved file
+    
+    Returns:
+        True if improvement was successful, False otherwise
+    """
+    if not COMMENT_ASSISTANT_AVAILABLE:
+        print("Error: Comment Assistant module is not available.")
+        print("Make sure the comment_assistant.py file is in the same directory.")
+        return False
+        
+    try:
+        print(f"\nImproving code comments in '{filename}'...\n")
+        
+        # Call the generate_improved_file function from comment_assistant.py
+        improved_content = generate_improved_file(filename)
+        
+        if output_file:
+            # Save to the specified output file
+            with open(output_file, 'w') as f:
+                f.write(improved_content)
+            print(f"Improved file written to: {output_file}")
+        else:
+            # Use a default output file name based on the input file
+            base_name, ext = os.path.splitext(filename)
+            default_output = f"{base_name}_improved{ext}"
+            with open(default_output, 'w') as f:
+                f.write(improved_content)
+            print(f"Improved file written to: {default_output}")
+            
+        return True
+    except Exception as e:
+        print(f"Error improving code comments: {str(e)}")
+        return False
+
 def print_usage():
     """Display program usage information."""
     print("\nUsage:")
-    print("  python simple_editor.py view <filename> [line-range]  - View a file with optional line range")
-    print("  python simple_editor.py list [directory] [pattern]    - List files matching pattern")
-    print("  python simple_editor.py run <filename.py>             - Run a Python file")
-    print("  python simple_editor.py create <filename> [template]  - Create file from template")
-    print("  python simple_editor.py copy <source> <destination>   - Copy a file")
-    print("  python simple_editor.py cat <output> <input1> [input2 ...]  - Concatenate files")
-    print("  python simple_editor.py search <pattern> [directory]  - Search for text in files")
-    print("  python simple_editor.py compare <file1> <file2>       - Compare two files")
+    print("  python enhanced_editor.py view <filename> [line-range]  - View a file with optional line range")
+    print("  python enhanced_editor.py list [directory] [pattern]    - List files matching pattern")
+    print("  python enhanced_editor.py run <filename.py>             - Run a Python file")
+    print("  python enhanced_editor.py create <filename> [template]  - Create file from template")
+    print("  python enhanced_editor.py copy <source> <destination>   - Copy a file")
+    print("  python enhanced_editor.py cat <o> <input1> [input2 ...]  - Concatenate files")
+    print("  python enhanced_editor.py search <pattern> [file_pattern] [dir] - Search in files")
+    print("  python enhanced_editor.py compare <file1> <file2>       - Compare two files")
+    print("  python enhanced_editor.py analyze <filename>            - Analyze code comments")
+    print("  python enhanced_editor.py improve <filename> [output]   - Improve code comments")
+    print("\nTemplates available for create command:")
+    print("  python, html, css, javascript (js), markdown (md), json, yaml (yml)")
     print("\nExamples:")
-    print("  python simple_editor.py view sample.txt 10-20")
-    print("  python simple_editor.py list sample_novel *.txt")
-    print("  python simple_editor.py create script.py python")
-    print("  python simple_editor.py create page.html html")
-    print("  python simple_editor.py create style.css css")
-    print("  python simple_editor.py create app.js javascript")
-    print("  python simple_editor.py create data.json json")
-    print("  python simple_editor.py copy file1.txt file2.txt")
-    print("  python simple_editor.py cat combined.txt file1.txt file2.txt file3.txt")
-    print("  python simple_editor.py search \"function\" *.js")
-    print("  python simple_editor.py compare file1.txt file2.txt")
+    print("  python enhanced_editor.py view sample.txt 10-20")
+    print("  python enhanced_editor.py list sample_novel *.txt")
+    print("  python enhanced_editor.py create script.py python")
+    print("  python enhanced_editor.py create style.css css")
+    print("  python enhanced_editor.py create config.yaml yaml")
+    print("  python enhanced_editor.py search \"function\" *.js")
+    print("  python enhanced_editor.py search \"def main\" *.py sample_scripts")
+    print("  python enhanced_editor.py cat combined.txt file1.txt file2.txt file3.txt")
+    print("  python enhanced_editor.py compare file1.txt file2.txt")
+    print("  python enhanced_editor.py analyze hello.py")
+    print("  python enhanced_editor.py improve hello.py hello_improved.py")
+
 
 def main():
     """Main function to parse arguments and execute commands."""
     print_banner()
     
-    parser = argparse.ArgumentParser(description='PyWrite Simple File Editor', add_help=False)
+    parser = argparse.ArgumentParser(description='PyWrite Enhanced File Editor', add_help=False)
     parser.add_argument('command', nargs='?', default='help')
     parser.add_argument('args', nargs='*', help='Command arguments')
     
@@ -564,6 +651,15 @@ def main():
         elif command == 'compare' and len(arguments) >= 2:
             compare_files(arguments[0], arguments[1])
             
+        elif command == 'analyze' and len(arguments) >= 1:
+            analyze_code_comments(arguments[0])
+            
+        elif command == 'improve' and len(arguments) >= 1:
+            if len(arguments) > 1:
+                improve_code_comments(arguments[0], arguments[1])
+            else:
+                improve_code_comments(arguments[0])
+                
         else:
             print_usage()
             

@@ -1,0 +1,15 @@
+{
+    "name": "ProjectName",
+    "version": "1.0.0",
+    "description": "Description of your project",
+    "author": "Your Name",
+    "created": "2025-03-27",
+    "license": "MIT",
+    "dependencies": {
+        "example-package": "^1.0.0"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }
+}
