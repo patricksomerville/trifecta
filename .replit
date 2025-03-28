@@ -40,6 +40,14 @@ args = "PyWrite Streamlit"
 task = "workflow.run"
 args = "PyWrite Enhanced"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PyWrite Creative Roadmap"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PyWrite Creative Roadmap Demo"
+
 [[workflows.workflow]]
 name = "PyWrite Demo"
 author = "agent"
@@ -153,6 +161,35 @@ task = "packager.installForAll"
 task = "shell.exec"
 args = "python main.py --streamlit --enhanced"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "PyWrite Creative Roadmap"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m streamlit run unified_roadmap_ui.py --server.port=5000 --server.address=0.0.0.0"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "PyWrite Creative Roadmap Demo"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python creative_roadmap_demo.py"
 
 [nix]
 channel = "stable-24_05"

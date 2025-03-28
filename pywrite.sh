@@ -25,6 +25,10 @@ function show_help() {
     echo "  enhanced                 - Start with continuous coding features"
     echo "  autocomplete             - Test autocomplete functionality"
     echo "  continuous               - Start continuous coding mode"
+    echo "  roadmap                  - Open the roadmap planning system"
+    echo "  roadmap-demo             - Run a demo of the roadmap system"
+    echo "  creative-roadmap         - Open the unified roadmap system (code, fiction, screenplay)"
+    echo "  creative-roadmap-demo    - Run a demo of the creative roadmap system"
     echo "  guide                    - Show PyWrite guide"
     echo "  demo                     - Run PyWrite demo"
     echo "  multi-modal              - Launch the multi-modal system demo"
@@ -85,6 +89,18 @@ case "$COMMAND" in
         ;;
     continuous)
         python "$SCRIPT_DIR/continuous_coding.py"
+        ;;
+    roadmap)
+        python -m streamlit run "$SCRIPT_DIR/roadmap_ui.py" --server.port=5000 --server.address=0.0.0.0
+        ;;
+    roadmap-demo)
+        python "$SCRIPT_DIR/roadmap_demo.py"
+        ;;
+    creative-roadmap)
+        python -m streamlit run "$SCRIPT_DIR/unified_roadmap_ui.py" --server.port=5000 --server.address=0.0.0.0
+        ;;
+    creative-roadmap-demo)
+        python "$SCRIPT_DIR/creative_roadmap_demo.py"
         ;;
     help)
         show_help
