@@ -21,6 +21,10 @@ function show_help() {
     echo "  improve FILE [OUTPUT]    - Improve code comments"
     echo "  sidecar                  - Start AI assistant with voice chat"
     echo "  voice                    - Start hands-free voice navigation"
+    echo "  streamlit                - Start web-based editor interface"
+    echo "  enhanced                 - Start with continuous coding features"
+    echo "  autocomplete             - Test autocomplete functionality"
+    echo "  continuous               - Start continuous coding mode"
     echo "  guide                    - Show PyWrite guide"
     echo "  demo                     - Run PyWrite demo"
     echo "  multi-modal              - Launch the multi-modal system demo"
@@ -32,6 +36,8 @@ function show_help() {
     echo "  ./pywrite.sh analyze complex_example.py"
     echo "  ./pywrite.sh sidecar     - Start the AI assistant"
     echo "  ./pywrite.sh voice       - Start voice navigation"
+    echo "  ./pywrite.sh streamlit   - Start the web interface"
+    echo "  ./pywrite.sh enhanced    - Start with continuous coding"
 }
 
 if [ $# -lt 1 ]; then
@@ -67,6 +73,18 @@ case "$COMMAND" in
         ;;
     voice)
         python "$SCRIPT_DIR/voice_navigation.py"
+        ;;
+    streamlit)
+        python "$SCRIPT_DIR/main.py" --streamlit
+        ;;
+    enhanced)
+        python "$SCRIPT_DIR/main.py" --streamlit --enhanced
+        ;;
+    autocomplete)
+        python "$SCRIPT_DIR/autocomplete_engine.py"
+        ;;
+    continuous)
+        python "$SCRIPT_DIR/continuous_coding.py"
         ;;
     help)
         show_help

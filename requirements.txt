@@ -4,3 +4,6 @@ streamlit-ace
 requests==2.32.3
 sv-ttk
 watchdog
+psycopg2-binary
+pydantic
+python-dotenv
