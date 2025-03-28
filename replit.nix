@@ -1,5 +1,6 @@
 {pkgs}: {
   deps = [
+    pkgs.espeak-ng
     pkgs.libsndfile
     pkgs.portaudio
     pkgs.zlib

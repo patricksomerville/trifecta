@@ -24,6 +24,10 @@ args = "PyWrite"
 task = "workflow.run"
 args = "PyWrite Sidecar"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PyWrite Multi-Modal Demo"
+
 [[workflows.workflow]]
 name = "PyWrite Demo"
 author = "agent"
@@ -79,6 +83,20 @@ task = "packager.installForAll"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python sidecar.py"
+
+[[workflows.workflow]]
+name = "PyWrite Multi-Modal Demo"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python multi_modal_demo.py"
 
 [nix]
 channel = "stable-24_05"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- Dial background plate -->
+  <circle cx="100" cy="100" r="95" fill="#333" stroke="#222" stroke-width="5" />
+  <circle cx="100" cy="100" r="85" fill="#444" stroke="#555" stroke-width="2" />
+  
+  <!-- Metallic rim -->
+  <circle cx="100" cy="100" r="80" fill="none" stroke="#888" stroke-width="4" />
+  <circle cx="100" cy="100" r="78" fill="none" stroke="#999" stroke-width="1" />
+  
+  <!-- Tick marks -->
+  <!-- Fiction mode (position 1) -->
+  <line x1="100" y1="30" x2="100" y2="45" stroke="#DDD" stroke-width="3" />
+  <text x="100" y="25" text-anchor="middle" fill="#DDD" font-family="Arial, sans-serif" font-size="12">Fiction</text>
+  
+  <!-- Screenwriting mode (position 2) -->
+  <line x1="153" y1="73" x2="142" y2="84" stroke="#DDD" stroke-width="3" />
+  <text x="163" y="70" text-anchor="middle" fill="#DDD" font-family="Arial, sans-serif" font-size="12">Screenwriting</text>
+  
+  <!-- Code mode (position 3) -->
+  <line x1="100" y1="170" x2="100" y2="155" stroke="#DDD" stroke-width="3" />
+  <text x="100" y="185" text-anchor="middle" fill="#DDD" font-family="Arial, sans-serif" font-size="12">Code</text>
+  
+  <!-- Center hub -->
+  <circle cx="100" cy="100" r="25" fill="#222" stroke="#555" stroke-width="2" />
+  <circle cx="100" cy="100" r="20" fill="url(#brushed)" stroke="#888" stroke-width="1" />
+  
+  <!-- Dial indicator (knob) -->
+  <g id="knob" transform="rotate(0, 100, 100)">
+    <circle cx="100" cy="100" r="18" fill="#222" stroke="#444" stroke-width="1" />
+    <circle cx="100" cy="100" r="15" fill="#333" stroke="#555" stroke-width="1" />
+    <line x1="100" y1="100" x2="100" y2="85" stroke="#DDD" stroke-width="2" />
+    <circle cx="100" cy="100" r="5" fill="#555" stroke="#666" stroke-width="1" />
+  </g>
+  
+  <!-- Brushed metal texture -->
+  <defs>
+    <pattern id="brushed" patternUnits="userSpaceOnUse" width="10" height="10">
+      <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCI+CiAgPHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjNjY2IiAvPgogIDxwYXRoIGQ9Ik0wLDAgTDEwLDEwIE0xMCwwIEwwLDEwIiBzdHJva2U9IiM3NzcnIHN0cm9rZS13aWR0aD0iMC41Ii8+Cjwvc3ZnPg==" x="0" y="0" width="10" height="10" />
+    </pattern>
+  </defs>
+  
+  <!-- Highlight and shadow to create 3D effect -->
+  <circle cx="85" cy="85" r="75" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="3" />
+</svg>

@@ -22,6 +22,7 @@ function show_help() {
     echo "  sidecar                  - Start AI assistant with voice chat"
     echo "  guide                    - Show PyWrite guide"
     echo "  demo                     - Run PyWrite demo"
+    echo "  multi-modal              - Launch the multi-modal system demo"
     echo "  help                     - Show this help message"
     echo ""
     echo "Examples:"
@@ -58,6 +59,9 @@ case "$COMMAND" in
         ;;
     demo)
         python "$SCRIPT_DIR/pywrite_example.py"
+        ;;
+    multi-modal)
+        python "$SCRIPT_DIR/multi_modal_demo.py"
         ;;
     help)
         show_help

@@ -11,6 +11,28 @@ A powerful Python writing application with advanced file management utilities an
 - **File Comparison**: Compare two files and see the differences
 - **Multiple File Operations**: Concatenate files, search across directories
 - **Sidecar Feature**: Real-time AI assistant with voice chat and screen observation capabilities
+- **Multi-modal System**: Three distinct modes (Fiction, Screenwriting, Code) with specialized tools for each
+
+## Multi-Modal System
+
+PyWrite features a versatile multi-modal system with three specialized modes of operation:
+
+1. **Fiction Mode**: Tools and templates for novel writing, character development, and plot structuring
+2. **Screenwriting Mode**: Specialized formatting, scene management, and screenplay-specific tools
+3. **Code Mode**: Programming-focused features with syntax highlighting, code analysis, and debugging tools
+
+The modes are accessible through a retro-style interface dial that allows quick switching while maintaining context. Each mode provides:
+
+- Mode-specific templates and file formats
+- Specialized toolbars and commands
+- Contextual sidebar content
+- Customized Sidecar AI prompts and assistance
+
+To explore the multi-modal system, run:
+
+```bash
+./pywrite.sh multi-modal
+```
 
 ## Sidecar AI Assistant
 
@@ -21,6 +43,7 @@ The Sidecar feature provides real-time AI assistance as you write and code. It:
 - Helps with documentation and code readability
 - Answers programming questions with context-aware responses
 - Assists with project organization and best practices
+- Adapts to the current PyWrite mode with specialized assistance
 
 Sidecar uses OpenAI's GPT models for intelligent assistance. To use the full capabilities, you'll need to set your OpenAI API key as an environment variable:
 
@@ -83,6 +106,9 @@ PyWrite can be used through its command-line interface. The main script `pywrite
 
 # Show the PyWrite guide
 ./pywrite.sh guide
+
+# Launch the multi-modal system demo
+./pywrite.sh multi-modal
 ```
 
 ## Component Files
@@ -90,10 +116,15 @@ PyWrite can be used through its command-line interface. The main script `pywrite
 - `enhanced_editor.py`: Core file management utilities
 - `comment_assistant.py`: AI-powered code comment analysis and improvement
 - `sidecar.py`: AI assistant with voice chat and screen observation
+- `mode_switcher.py`: Mode switching interface with the retro-style dial
+- `mode_content_provider.py`: Templates and content for each writing mode
+- `multi_modal_demo.py`: Interactive demo of the multi-modal system
 - `pywrite.sh`: Command-line wrapper for PyWrite utilities
 - `pywrite_example.py`: Demo script showing PyWrite capabilities
 - `pywrite_guide.py`: Guide for using PyWrite commands
 - `template_examples/`: Example template files for different languages
+- `assets/ui/mode_dial.svg`: Graphic for the mode switching dial
+- `assets/sounds/creak.js`: Sound effect for mode switching
 
 ## Sample Data
 
@@ -121,5 +152,6 @@ Commands:
   sidecar                  - Start AI assistant with voice chat
   guide                    - Show PyWrite guide
   demo                     - Run PyWrite demo
+  multi-modal              - Launch the multi-modal system demo
   help                     - Show this help message
 ```
