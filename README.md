@@ -10,6 +10,25 @@ A powerful Python writing application with advanced file management utilities an
 - **AI-Powered Comment Assistant**: Analyze and improve code comments and documentation
 - **File Comparison**: Compare two files and see the differences
 - **Multiple File Operations**: Concatenate files, search across directories
+- **Sidecar Feature**: Real-time AI assistant with voice chat and screen observation capabilities
+
+## Sidecar AI Assistant
+
+The Sidecar feature provides real-time AI assistance as you write and code. It:
+
+- Observes your screen to understand what you're working on
+- Provides contextual suggestions for code improvements
+- Helps with documentation and code readability
+- Answers programming questions with context-aware responses
+- Assists with project organization and best practices
+
+Sidecar uses OpenAI's GPT models for intelligent assistance. To use the full capabilities, you'll need to set your OpenAI API key as an environment variable:
+
+```bash
+export OPENAI_API_KEY=your-api-key-here
+```
+
+Without an API key, Sidecar will run in demo mode with predefined responses to common questions.
 
 ## Usage
 
@@ -35,6 +54,9 @@ PyWrite can be used through its command-line interface. The main script `pywrite
 
 # Improve code comments
 ./pywrite.sh improve complex_example.py improved_code.py
+
+# Start the AI assistant with voice chat
+./pywrite.sh sidecar
 ```
 
 ### Advanced Usage
@@ -67,6 +89,7 @@ PyWrite can be used through its command-line interface. The main script `pywrite
 
 - `enhanced_editor.py`: Core file management utilities
 - `comment_assistant.py`: AI-powered code comment analysis and improvement
+- `sidecar.py`: AI assistant with voice chat and screen observation
 - `pywrite.sh`: Command-line wrapper for PyWrite utilities
 - `pywrite_example.py`: Demo script showing PyWrite capabilities
 - `pywrite_guide.py`: Guide for using PyWrite commands
@@ -95,6 +118,7 @@ Commands:
   compare FILE1 FILE2      - Compare two files
   analyze FILE             - Analyze code comments
   improve FILE [OUTPUT]    - Improve code comments
+  sidecar                  - Start AI assistant with voice chat
   guide                    - Show PyWrite guide
   demo                     - Run PyWrite demo
   help                     - Show this help message

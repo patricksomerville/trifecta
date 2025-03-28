@@ -59,6 +59,28 @@ def main():
     print("    Generate an improved version of a file with proper documentation")
     print("    Example: python comment_assistant.py improve example_code.py --output improved_code.py\n")
     
+    print("Sidecar AI Assistant (sidecar.py):")
+    print("----------------------------------------")
+    print("python sidecar.py")
+    print("    Start the AI assistant with voice chat and screen observation")
+    print("    Example: python sidecar.py\n")
+    print("    Note: Requires OpenAI API key set as environment variable OPENAI_API_KEY")
+    print("          Without the API key, Sidecar runs in demo mode.\n")
+    
+    print("Sidecar Features:")
+    print("  - Observes your screen to understand what you're working on")
+    print("  - Provides contextual assistance based on the code you're writing")
+    print("  - Suggests improvements for documentation and coding style")
+    print("  - Answers programming questions with context-aware responses")
+    print("  - Helps with code organization and best practices\n")
+    
+    print("Example Sidecar Commands:")
+    print("  - \"Can you help me improve my code documentation?\"")
+    print("  - \"How do I structure a good README file?\"")
+    print("  - \"What's the best way to organize my Python project?\"")
+    print("  - \"Can you suggest a better name for this function?\"")
+    print("  - \"How can I write more readable code?\"\n")
+    
     print("Additional Resources:")
     print("-------------------")
     print("- For a demo of these features, run: python pywrite_example.py")

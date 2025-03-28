@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 PyWrite Example Script
-Shows how to use the enhanced editor and comment assistant together
+Shows how to use the enhanced editor, comment assistant, and Sidecar together
 """
 
 import os
@@ -82,10 +82,42 @@ def main():
     print("\nStep 7: Comparing original and improved files...\n")
     subprocess.run(["python", "enhanced_editor.py", "compare", "complex_example.py", "complex_example_improved.py"])
     
+    # Step 8: Demonstrate Sidecar feature
+    print("\nStep 8: Demonstrating the Sidecar AI Assistant feature...\n")
+    print("The Sidecar assistant can provide real-time help with your code.")
+    print("It observes your screen and provides contextual assistance.")
+    print("To start Sidecar in another terminal, run: ./pywrite.sh sidecar")
+    
+    # Create a simulated conversation for demo purposes
+    print("\nExample Sidecar conversation:")
+    print("\nYou: Can you help me improve my code documentation?")
+    time.sleep(1)
+    print("\nSidecar: Absolutely! Good documentation makes code more maintainable and")
+    print("         easier to understand. Here are tips for better documentation:")
+    print("         1. Use clear docstrings for functions, classes, and modules")
+    print("         2. Explain 'why' not just 'what' the code does")
+    print("         3. Keep comments up-to-date as code changes")
+    print("         4. Document parameters and return values")
+    print("         5. Include examples for complex functions")
+    
+    time.sleep(1)
+    print("\nYou: How do I structure a good README file?")
+    time.sleep(1)
+    print("\nSidecar: A well-structured README should include:")
+    print("         1. Project name and description")
+    print("         2. Installation instructions")
+    print("         3. Usage examples with code snippets")
+    print("         4. Features and capabilities")
+    print("         5. Dependencies and requirements")
+    print("         6. Configuration options")
+    print("         7. License information")
+    print("         Keep it concise but informative with clear formatting.")
+    
     print("\nDemo completed! You can now explore the following files:")
     print("- example_code.py: Simple Python template file")
     print("- complex_example.py: More complex Python file without proper comments")
     print("- complex_example_improved.py: The same file with improved comments")
+    print("\nTo try the Sidecar feature, run: ./pywrite.sh sidecar")
 
 if __name__ == "__main__":
     main()

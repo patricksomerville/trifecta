@@ -19,6 +19,7 @@ function show_help() {
     echo "  compare FILE1 FILE2      - Compare two files"
     echo "  analyze FILE             - Analyze code comments"
     echo "  improve FILE [OUTPUT]    - Improve code comments"
+    echo "  sidecar                  - Start AI assistant with voice chat"
     echo "  guide                    - Show PyWrite guide"
     echo "  demo                     - Run PyWrite demo"
     echo "  help                     - Show this help message"
@@ -27,6 +28,7 @@ function show_help() {
     echo "  ./pywrite.sh view example_code.py"
     echo "  ./pywrite.sh create new_file.py python"
     echo "  ./pywrite.sh analyze complex_example.py"
+    echo "  ./pywrite.sh sidecar     - Start the AI assistant"
 }
 
 if [ $# -lt 1 ]; then
@@ -47,6 +49,9 @@ case "$COMMAND" in
         else
             python "$SCRIPT_DIR/comment_assistant.py" "$COMMAND" "$@"
         fi
+        ;;
+    sidecar)
+        python "$SCRIPT_DIR/sidecar.py"
         ;;
     guide)
         python "$SCRIPT_DIR/pywrite_guide.py"
