@@ -20,6 +20,7 @@ function show_help() {
     echo "  analyze FILE             - Analyze code comments"
     echo "  improve FILE [OUTPUT]    - Improve code comments"
     echo "  sidecar                  - Start AI assistant with voice chat"
+    echo "  voice                    - Start hands-free voice navigation"
     echo "  guide                    - Show PyWrite guide"
     echo "  demo                     - Run PyWrite demo"
     echo "  multi-modal              - Launch the multi-modal system demo"
@@ -30,6 +31,7 @@ function show_help() {
     echo "  ./pywrite.sh create new_file.py python"
     echo "  ./pywrite.sh analyze complex_example.py"
     echo "  ./pywrite.sh sidecar     - Start the AI assistant"
+    echo "  ./pywrite.sh voice       - Start voice navigation"
 }
 
 if [ $# -lt 1 ]; then
@@ -62,6 +64,9 @@ case "$COMMAND" in
         ;;
     multi-modal)
         python "$SCRIPT_DIR/multi_modal_demo.py"
+        ;;
+    voice)
+        python "$SCRIPT_DIR/voice_navigation.py"
         ;;
     help)
         show_help

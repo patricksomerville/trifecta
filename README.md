@@ -12,6 +12,7 @@ A powerful Python writing application with advanced file management utilities an
 - **Multiple File Operations**: Concatenate files, search across directories
 - **Sidecar Feature**: Real-time AI assistant with voice chat and screen observation capabilities
 - **Multi-modal System**: Three distinct modes (Fiction, Screenwriting, Code) with specialized tools for each
+- **Voice Navigation**: Hands-free coding navigation using voice commands for enhanced productivity
 
 ## Multi-Modal System
 
@@ -33,6 +34,30 @@ To explore the multi-modal system, run:
 ```bash
 ./pywrite.sh multi-modal
 ```
+
+## Voice Navigation
+
+The Voice Navigation feature enables hands-free coding and navigation through voice commands. It allows you to:
+
+- Navigate through code with voice commands ("go to line 42", "next page")
+- Execute common file operations ("save file", "open file example.py")
+- Run code and control execution ("run code", "debug code")
+- Switch between PyWrite modes ("switch to fiction mode")
+- Perform editing functions ("copy", "paste", "undo")
+
+Voice Navigation uses OpenAI's Whisper API for speech recognition. To use the full capabilities, you'll need to set your OpenAI API key:
+
+```bash
+export OPENAI_API_KEY=your-api-key-here
+```
+
+To start Voice Navigation:
+
+```bash
+./pywrite.sh voice
+```
+
+Without an API key, Voice Navigation will run in demo mode with simulated voice commands.
 
 ## Sidecar AI Assistant
 
@@ -116,6 +141,7 @@ PyWrite can be used through its command-line interface. The main script `pywrite
 - `enhanced_editor.py`: Core file management utilities
 - `comment_assistant.py`: AI-powered code comment analysis and improvement
 - `sidecar.py`: AI assistant with voice chat and screen observation
+- `voice_navigation.py`: Hands-free coding navigation using voice commands
 - `mode_switcher.py`: Mode switching interface with the retro-style dial
 - `mode_content_provider.py`: Templates and content for each writing mode
 - `multi_modal_demo.py`: Interactive demo of the multi-modal system
@@ -150,6 +176,7 @@ Commands:
   analyze FILE             - Analyze code comments
   improve FILE [OUTPUT]    - Improve code comments
   sidecar                  - Start AI assistant with voice chat
+  voice                    - Start hands-free voice navigation
   guide                    - Show PyWrite guide
   demo                     - Run PyWrite demo
   multi-modal              - Launch the multi-modal system demo
