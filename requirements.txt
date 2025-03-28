@@ -3,3 +3,4 @@ streamlit
 streamlit-ace
 requests==2.32.3
 sv-ttk
+watchdog

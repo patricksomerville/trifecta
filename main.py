@@ -9,11 +9,21 @@ import os
 import sys
 
 
+from automation import AutoSaver, FileWatcher, BatchProcessor
+
 def main():
     """
     Main function that starts the PyWrite editor application.
-    This displays help information by default.
+    This displays help information by default and initializes automation.
     """
+    # Initialize automation
+    auto_saver = AutoSaver(save_interval=300)  # 5 minutes
+    file_watcher = FileWatcher(".", [".py", ".txt", ".md"])
+    batch_processor = BatchProcessor()
+    
+    # Start automation services
+    auto_saver.start()
+    file_watcher.start()
     print("====================================")
     print("  Welcome to PyWrite!")
     print("====================================")
