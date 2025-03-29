@@ -7,3 +7,4 @@ watchdog
 psycopg2-binary
 pydantic
 python-dotenv
+openai

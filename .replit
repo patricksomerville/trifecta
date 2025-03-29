@@ -34,10 +34,6 @@ args = "PyWrite Voice Navigation"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "PyWrite Streamlit"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
 args = "PyWrite Enhanced"
 
 [[workflows.workflow.tasks]]
@@ -51,6 +47,10 @@ args = "PyWrite Creative Roadmap Demo"
 [[workflows.workflow.tasks]]
 task = "workflow.run"
 args = "PyWrite Sentence Completer"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PyWrite Streamlit"
 
 [[workflows.workflow]]
 name = "PyWrite Demo"
@@ -137,21 +137,6 @@ task = "shell.exec"
 args = "python voice_navigation.py"
 
 [[workflows.workflow]]
-name = "PyWrite Streamlit"
-author = "agent"
-
-[workflows.workflow.metadata]
-agentRequireRestartOnSave = false
-
-[[workflows.workflow.tasks]]
-task = "packager.installForAll"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python -m streamlit run streamlit_pywrite.py --server.port=5000 --server.address=0.0.0.0"
-waitForPort = 5000
-
-[[workflows.workflow]]
 name = "PyWrite Enhanced"
 author = "agent"
 
@@ -208,6 +193,21 @@ task = "packager.installForAll"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python sentence_completer_demo.py"
+
+[[workflows.workflow]]
+name = "PyWrite Streamlit"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m streamlit run streamlit_pywrite.py --server.port=5000 --server.address=0.0.0.0"
+waitForPort = 5000
 
 [nix]
 channel = "stable-24_05"

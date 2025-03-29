@@ -863,9 +863,10 @@ squares = list(map(lambda x: x**2, numbers))
                     st.session_state.output = f"Error running code: {str(e)}"
         
         with comment_col:
-            analyze_comment_col, improve_comment_col = st.columns(2)
+            # Instead of nested columns, use buttons side by side
+            col1, col2 = st.columns(2)
             
-            with analyze_comment_col:
+            with col1:
                 if st.button("Analyze Comments") and st.session_state.current_file:
                     try:
                         # Save current content to a temporary file
@@ -884,7 +885,7 @@ squares = list(map(lambda x: x**2, numbers))
                     except Exception as e:
                         st.error(f"Error analyzing file: {str(e)}")
             
-            with improve_comment_col:
+            with col2:
                 if st.button("Improve Comments") and st.session_state.current_file:
                     try:
                         # Save current content to a temporary file

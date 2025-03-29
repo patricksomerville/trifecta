@@ -62,6 +62,7 @@ class CreativeAutocompleteBridge(RoadmapAutocompleteBridge):
         self.dialogue_completions = {}
         self.setting_completions = {}
         self.theme_completions = {}
+        self.roadmap_completions = {}
         
         # Extract patterns from roadmap if available
         if self.roadmap and hasattr(self.roadmap, 'characters'):
