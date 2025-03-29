@@ -48,6 +48,10 @@ args = "PyWrite Creative Roadmap"
 task = "workflow.run"
 args = "PyWrite Creative Roadmap Demo"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PyWrite Sentence Completer"
+
 [[workflows.workflow]]
 name = "PyWrite Demo"
 author = "agent"
@@ -190,6 +194,20 @@ task = "packager.installForAll"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python creative_roadmap_demo.py"
+
+[[workflows.workflow]]
+name = "PyWrite Sentence Completer"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python sentence_completer_demo.py"
 
 [nix]
 channel = "stable-24_05"

@@ -29,6 +29,7 @@ function show_help() {
     echo "  roadmap-demo             - Run a demo of the roadmap system"
     echo "  creative-roadmap         - Open the unified roadmap system (code, fiction, screenplay)"
     echo "  creative-roadmap-demo    - Run a demo of the creative roadmap system"
+    echo "  sentence-completer       - Start the sentence completion assistant"
     echo "  guide                    - Show PyWrite guide"
     echo "  demo                     - Run PyWrite demo"
     echo "  multi-modal              - Launch the multi-modal system demo"
@@ -101,6 +102,9 @@ case "$COMMAND" in
         ;;
     creative-roadmap-demo)
         python "$SCRIPT_DIR/creative_roadmap_demo.py"
+        ;;
+    sentence-completer)
+        python "$SCRIPT_DIR/sentence_completer_demo.py"
         ;;
     help)
         show_help
