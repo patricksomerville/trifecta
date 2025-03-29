@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 function show_help() {
     echo "Trifecta - Python Writing Utilities"
-    echo "Usage: ./pywrite.sh COMMAND [ARGS]"
+    echo "Usage: ./trifecta.sh COMMAND [ARGS]"
     echo ""
     echo "Commands:"
     echo "  view FILE [RANGE]        - View a file with line numbers"
@@ -36,13 +36,13 @@ function show_help() {
     echo "  help                     - Show this help message"
     echo ""
     echo "Examples:"
-    echo "  ./pywrite.sh view example_code.py"
-    echo "  ./pywrite.sh create new_file.py python"
-    echo "  ./pywrite.sh analyze complex_example.py"
-    echo "  ./pywrite.sh sidecar     - Start the AI assistant"
-    echo "  ./pywrite.sh voice       - Start voice navigation"
-    echo "  ./pywrite.sh streamlit   - Start the web interface"
-    echo "  ./pywrite.sh enhanced    - Start with continuous coding"
+    echo "  ./trifecta.sh view example_code.py"
+    echo "  ./trifecta.sh create new_file.py python"
+    echo "  ./trifecta.sh analyze complex_example.py"
+    echo "  ./trifecta.sh sidecar     - Start the AI assistant"
+    echo "  ./trifecta.sh voice       - Start voice navigation"
+    echo "  ./trifecta.sh streamlit   - Start the web interface"
+    echo "  ./trifecta.sh enhanced    - Start with continuous coding"
 }
 
 if [ $# -lt 1 ]; then

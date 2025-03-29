@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Main entry point for PyWrite
+Main entry point for Trifecta
 This displays help information by default and directs users to the shell script.
 """
 
@@ -22,7 +22,7 @@ except ImportError:
 
 def start_streamlit_app(enhanced=False):
     """
-    Start the Streamlit web interface for PyWrite.
+    Start the Streamlit web interface for Trifecta.
     
     Args:
         enhanced: Whether to use the enhanced version with autocomplete and automation
@@ -39,18 +39,18 @@ def start_streamlit_app(enhanced=False):
             "--server.port=5000", "--server.address=0.0.0.0"
         ]
         
-        print(f"Starting PyWrite Streamlit interface: {' '.join(cmd)}")
+        print(f"Starting Trifecta Streamlit interface: {' '.join(cmd)}")
         process = subprocess.Popen(cmd)
         
         # Print instructions
-        print(f"\nPyWrite Streamlit interface is running at: http://localhost:5000")
+        print(f"\nTrifecta Streamlit interface is running at: http://localhost:5000")
         print("Press Ctrl+C to stop the server")
         
         # Wait for the process to complete (or be interrupted)
         process.wait()
         return True
     except KeyboardInterrupt:
-        print("\nStopping PyWrite Streamlit interface...")
+        print("\nStopping Trifecta Streamlit interface...")
         return True
     except Exception as e:
         print(f"Error starting Streamlit app: {str(e)}")
@@ -88,10 +88,10 @@ def start_enhanced_features():
 
 def main():
     """
-    Main function that starts the PyWrite editor application.
+    Main function that starts the Trifecta editor application.
     This displays help information by default and initializes automation.
     """
-    parser = argparse.ArgumentParser(description="PyWrite - Python Writing Application")
+    parser = argparse.ArgumentParser(description="Trifecta - Python Writing Application")
     parser.add_argument("--streamlit", action="store_true", help="Start the Streamlit web interface")
     parser.add_argument("--enhanced", action="store_true", help="Start with enhanced automation and continuous coding features")
     
@@ -114,10 +114,10 @@ def main():
     auto_saver.start()
     file_watcher.start()
     print("====================================")
-    print("  Welcome to PyWrite!")
+    print("  Welcome to Trifecta!")
     print("====================================")
     print("")
-    print("PyWrite is a powerful Python writing application with advanced")
+    print("Trifecta is a powerful Python writing application with advanced")
     print("file management utilities and an AI-powered comment assistant.")
     print("It now includes a Sidecar feature for real-time AI assistance.")
     print("")
@@ -129,22 +129,31 @@ def main():
     print("")
     print("To get started, use the following commands:")
     print("")
-    print("  ./pywrite.sh help         - Show all available commands")
-    print("  ./pywrite.sh guide        - Show detailed usage guide")
-    print("  ./pywrite.sh demo         - Run a demonstration")
-    print("  ./pywrite.sh view FILE    - View a file with line numbers")
-    print("  ./pywrite.sh run FILE     - Run a Python file")
-    print("  ./pywrite.sh create FILE  - Create a new file from template")
-    print("  ./pywrite.sh sidecar      - Start AI assistant with voice chat")
-    print("  ./pywrite.sh streamlit    - Start the web-based interface")
-    print("  ./pywrite.sh enhanced     - Start with continuous coding features")
+    print("  ./trifecta.sh help         - Show all available commands")
+    print("  ./trifecta.sh guide        - Show detailed usage guide")
+    print("  ./trifecta.sh demo         - Run a demonstration")
+    print("  ./trifecta.sh view FILE    - View a file with line numbers")
+    print("  ./trifecta.sh run FILE     - Run a Python file")
+    print("  ./trifecta.sh create FILE  - Create a new file from template")
+    print("  ./trifecta.sh sidecar      - Start AI assistant with voice chat")
+    print("  ./trifecta.sh streamlit    - Start the web-based interface")
+    print("  ./trifecta.sh enhanced     - Start with continuous coding features")
+    print("")
+    print("  The legacy ./pywrite.sh script still works for backward compatibility.")
     print("")
     print("For more information, see the README.md file.")
     print("")
     
-    # Check if the shell script is executable
+    # Check if the shell scripts are executable
+    if not os.access("trifecta.sh", os.X_OK):
+        print("NOTE: The trifecta.sh script is not executable.")
+        print("Run the following command to make it executable:")
+        print("")
+        print("  chmod +x trifecta.sh")
+        print("")
+    
     if not os.access("pywrite.sh", os.X_OK):
-        print("NOTE: The pywrite.sh script is not executable.")
+        print("NOTE: The legacy pywrite.sh script is not executable.")
         print("Run the following command to make it executable:")
         print("")
         print("  chmod +x pywrite.sh")

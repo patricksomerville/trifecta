@@ -52,6 +52,38 @@ args = "PyWrite Sentence Completer"
 task = "workflow.run"
 args = "PyWrite Streamlit"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta Demo"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta Guide"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta Sidecar"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta Creative Roadmap"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta Creative Roadmap Demo"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta Sentence Completer"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trifecta Voice Navigation"
+
 [[workflows.workflow]]
 name = "PyWrite Demo"
 author = "agent"
@@ -208,6 +240,119 @@ task = "packager.installForAll"
 task = "shell.exec"
 args = "python -m streamlit run streamlit_pywrite.py --server.port=5000 --server.address=0.0.0.0"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "Trifecta"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
+
+[[workflows.workflow]]
+name = "Trifecta Demo"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./trifecta.sh demo"
+
+[[workflows.workflow]]
+name = "Trifecta Guide"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./trifecta.sh guide"
+
+[[workflows.workflow]]
+name = "Trifecta Sidecar"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python sidecar.py"
+
+[[workflows.workflow]]
+name = "Trifecta Creative Roadmap"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m streamlit run unified_roadmap_ui.py --server.port=5000 --server.address=0.0.0.0"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "Trifecta Creative Roadmap Demo"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python creative_roadmap_demo.py"
+
+[[workflows.workflow]]
+name = "Trifecta Sentence Completer"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python sentence_completer_demo.py"
+
+[[workflows.workflow]]
+name = "Trifecta Voice Navigation"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python voice_navigation.py"
 
 [nix]
 channel = "stable-24_05"
